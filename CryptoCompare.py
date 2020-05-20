@@ -6,7 +6,7 @@ from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
 
-claveApi = '1ae3d2ee-eca8-4806-9aac-afe373820ab8'
+claveApi = 'API KEY COINMARKETCAP'  #Acá tenes que introducir la api key obtenida en coinmarketcap.
 
 estadistica = {}
 datosFinales = {}
