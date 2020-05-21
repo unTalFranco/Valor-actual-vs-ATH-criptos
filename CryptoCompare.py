@@ -5,11 +5,11 @@ import yfinance as yf
 from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
-
-claveApi = 'API KEY COINMARKETCAP'  #Acá tenes que introducir la api key obtenida en coinmarketcap.
-
+import matplotlib.pyplot as plt
+claveApi = '1ae3d2ee-eca8-4806-9aac-afe373820ab8'
 estadistica = {}
 datosFinales = {}
+
 def compararPrecio(codigo): #compara ATH con precio de apertura y saca el porcentaje correspondiente.
     try:
         ath = maximo(codigo)
@@ -43,8 +43,9 @@ def inicializador(cantidad):    #inicia el algoritmo. Se le pasa por argumento l
     lista = crearLista(cmDatosRank,cantidad)
     for item in lista:
         compararPrecio(item)
-    print(datosFinales)
-
+    grafico(datosFinales)
+    
+####----###
 def crearLista(respuesta,cantidad):   #Transforma la respuesta de CMC en una lista,con los codigos de las cripto segun el ranking. Y ejecuta el algoritmo por cada item
     data = list(respuesta['data'])
     n=0
@@ -75,5 +76,15 @@ def cmRank(): #Solicita a la api de CMC un JSON con la info de las criptos.
       return data
     except (ConnectionError, Timeout, TooManyRedirects) as e:
       print(e)
+
+def grafico(porcentajes):
+    data = porcentajes
+    names = list(data.keys())
+    values = list(data.values())
+    #tick_label does the some work as plt.xticks()
+    plt.figure(figsize=(10,len(porcentajes)/2))
+    plt.barh(range(len(data)),values,tick_label=names)
+    plt.savefig('bar.png')
+    plt.show()
    
   #inicializador(20) Se utiliza esta funcion para arrancar el algoritmo, hay que pasarle por argumento la cantidad de criptos a analizar.
